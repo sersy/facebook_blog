@@ -6,7 +6,8 @@
 			<h4 class="widget-title">Shortcuts</h4>
 			<ul class="naves">
 				<li>
-					<i class="ti-user"></i><a href="{{ route('profile.index',auth()->user()->user_name) }}" title="">
+					{{--<i class="ti-user"></i><a href="{{ route('profile.index',auth()->user()->user_name) }}" title="">--}}
+					<i class="ti-user"></i><a href="{{ route('profile.show',auth()->user()->user_name) }}" title="">
 					{{ __('Welcome') }} {{ auth()->user()->user_name }}</a>
 				</li>
 				<li>
@@ -33,13 +34,7 @@
 				</li>
 			</ul>
 
-		</div><!-- Shortcuts -->
-
-
-
-
-
-
+		</div>
 
 
 	</aside>

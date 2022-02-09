@@ -7,7 +7,7 @@
 
 			<ul class="naves">
 				<li>
-					<i class="ti-user"></i><a href="{{ route('profile.index',auth()->user()->user_name) }}" title="">
+					<i class="ti-user"></i><a href="{{ route('profile.show',auth()->user()->user_name) }}" title="">
 					{{ __('Welcome') }} {{ auth()->user()->user_name }}</a>
 				</li>
 				<li>
@@ -36,9 +36,9 @@
 
 		</div><!-- Shortcuts -->
 
-		{{--{{ dd($authUser) }}--}}
 
-		{{--@if ( auth()->user()->id == $authUser->id)
+
+		@if ( auth()->user()->id == $profile->id)
 			<div class="widget stick-widget">
 				<h4 class="widget-title">Edit info</h4>
 				<ul class="naves">
@@ -48,7 +48,7 @@
 					</li>
 				</ul>
 			</div>
-		@endif--}}
+		@endif
 
 
 

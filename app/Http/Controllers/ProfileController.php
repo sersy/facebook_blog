@@ -17,15 +17,18 @@ class ProfileController extends Controller
      *
      * @param Request $request
      * @param User $user
-     * @return void
+     * @return User
      */
-    public function index()
+    public function index(Request $request,User $user)
     {
-        $authUser =  User::find(auth()->user()->id);
-        if (!$authUser){
+
+        //return $user;
+        //$user =  User::find(auth()->user()->id);
+        /*$user =  User::where('user_name',$username)->first();
+        if (!$user){
             abort('404');
         }
-        return view('profile.index',compact('authUser'));
+        return view('profile.index',compact('user'));*/
 
 
 
@@ -71,14 +74,14 @@ class ProfileController extends Controller
 
     public function show($username)
     {
-        $user =  User::where('user_name',$username)->first();
-        $users = User::all();
-        $authUser =  User::find(auth()->user()->id);
+        $profile =  User::where('user_name',$username)->first();
+        //$users = User::all();
+        //$authUser =  User::find(auth()->user()->id);
 
-        if (!$user){
+        if (!$profile){
             abort('404');
         }
-        return view('profile.show',compact('user','users','authUser'));
+        return view('profile.show',compact('profile'));
     }
 
     /**

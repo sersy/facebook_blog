@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class SearchController extends Controller
 {
@@ -25,7 +26,9 @@ class SearchController extends Controller
                         ->orWhere('first_name', 'like', '%' . $request->find . '%')
                         ->orWhere('last_name', 'like', '%' . $request->find . '%');
                 });
-            })->get();
+            })
+
+            ->get();
 
         return view('search.find-people', compact('users'));
 

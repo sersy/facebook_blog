@@ -2,6 +2,24 @@
 
 @section('content')
 
+	@include('layouts._header')
+
+	@include('layouts._topbar')
+
+
+	{{--@include('layouts._feature-photo')--}}
+	{{-- @include('layouts._feature-photo')--}}
+
+
+	<section>
+		<div class="gap gray-bg">
+			<div class="container-fluid">
+				<div class="row">
+					<div class="col-lg-12">
+						<div class="row" id="page-contents">
+
+							@include('layouts._left-sidebar')
+							<div class="col-lg-6">
 
 	<div class="central-meta">
 		<h2 class="resutl-found">You Search For <span>"{{ Request::input('find') }}"</span></h2>
@@ -10,6 +28,10 @@
 		@else
 		<ul class="nearby-contct">
 			@foreach ($users as $user)
+				{{--{{ dd(auth()->user()->isBlockedFriend($user)) }}--}}
+			@if (!auth()->user()->isBlockedFriend($user))
+
+
 				<li>
 					<div class="nearly-pepls">
 						<figure>
@@ -30,6 +52,11 @@
 						</div>
 					</div>
 				</li>
+
+				@else
+				You must unblock this account to see all details about him
+				@endif
+
 			@endforeach
 			{{--<li>
 				<div class="nearly-pepls">
@@ -129,6 +156,13 @@
 		@endif
 	</div>
 
-
+							</div><!-- _central-meta -->
+							@include('layouts._right-sidebar')
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
 
 @stop

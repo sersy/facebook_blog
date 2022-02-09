@@ -29,10 +29,16 @@ Route::group(['middleware'=>'auth'],function () {
     Route::get('/search', 'SearchController@getResult')->name('search.friend');
 
     /*Profile*/
-    Route::resource('profile', 'ProfileController')->except(['create','store','destroy']);
+    Route::resource('profile', 'ProfileController')->except(['index','create','store','destroy']);
 
     /*Friend*/
+    Route::get('friend/add/{username}', 'FriendController@getAdd')->name('friend.add');
+    Route::get('friend/accept/{username}', 'FriendController@acceptRequest')->name('friend.accept');
+    Route::post('friend/delete/{username}', 'FriendController@postDelete')->name('friend.delete');
+    Route::post('friend/block/{username}', 'FriendController@blockFriend')->name('friend.block');
+    Route::post('friend/unblock/{username}', 'FriendController@unBlockFriend')->name('friend.unblock');
     Route::resource('friend', 'FriendController')->except(['create','store','destroy']);
+
 
 
 });

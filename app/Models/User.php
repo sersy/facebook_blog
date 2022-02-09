@@ -61,7 +61,7 @@ class User extends Authenticatable
     }
 
     public function acceptedFriends(){
-        return $this->myFriends()->wherePivot('accepted', true);
+        return $this->myFriends()->wherePivot('accepted', true)->get();
     }
 
     /*get all friend request for current user*/
@@ -75,14 +75,14 @@ class User extends Authenticatable
     }
 
 
-    /*check if current user has a friend request pending from this user $user
+    /*check if current user has a friend request pending from another user $user
     and it will return true or false value
     */
     public function hasFriendRequestPending(User $user){
         return (bool) $this->friendRequestPending()->where('id',$user->id)->count();
     }
 
-    /*check if received request friend from other user*/
+    /*check if received request friend from particular user*/
     public function hasFriendRequestReceived(User $user){
         return (bool) $this->friendRequest()->where('id',$user->id)->count();
     }
@@ -91,19 +91,40 @@ class User extends Authenticatable
     public function addFriend(User $user){
         $this->friendsOf()->attach($user->id);
     }
+
+    /*delete friend and detach this user on the relation table*/
+    public function deleteFriend(User $user){
+        $this->friendsOf()->detach($user->id);
+        $this->myFriends()->detach($user->id);
+    }
+
     /*accept friend request and update pivot*/
     public function acceptFriendRequest(User $user){
         $this->friendRequest()->where('id', $user->id)->first()->pivot->update(['accepted' => true]);
     }
-    /*check if user is friend or not and return bool value*/
+    /*check if user is friend with particular user or not and return bool value*/
     public function isFriendWith(User $user){
         return (bool) $this->friends()->where('id',$user->id)->count();
     }
 
     /*get all blocked users*/
     public function blockedFriends(){
-        return $this->myFriends()->wherePivot('blocked', true);
+        return $this->myFriends()->wherePivot('blocked', true)->get();
     }
+    /*check if user is blocked  particular user or not and return bool value*/
+    public function isBlockedFriend(User $user){
+       return (bool)  $this->blockedFriends()->where('id', $user->id)->count();
+    }
+    /*do block*/
+    public function doBlock(User $user){
+        $this->acceptedFriends()->where('id', $user->id)->first()->pivot->update(['blocked' => true]);
+    }
+
+    /*unblock*/
+    public function unblock(User $user){
+        $this->blockedFriends()->where('id', $user->id)->first()->pivot->update(['blocked' => false]);
+    }
+
 
     /*get all friends for me and all friends for my friend*/
     /*this relation get accepted request friend from two wise [sender and received ]*/
@@ -111,6 +132,13 @@ class User extends Authenticatable
         return $this->myFriends()->wherePivot('accepted', true)->get()
             ->merge($this->friendsOf()->wherePivot('accepted',true)->get());
     }
+
+    /*public function friendsBlocked(){
+        return $this->myFriends()->wherePivot('blocked', true)->get()
+            ->merge($this->friendsOf()->wherePivot('blocked', true)->get());
+
+
+    }*/
 
 
 }

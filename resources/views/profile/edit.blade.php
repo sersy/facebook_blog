@@ -1,17 +1,29 @@
 @extends('layouts.app')
 @section('content')
-	<div class="central-meta">
+
+
+	@include('layouts._header')
+
+	@include('layouts._topbar')
+
+
+	{{--@include('layouts._feature-photo')--}}
+
+
+	<section>
+		<div class="gap gray-bg">
+			<div class="container-fluid">
+				<div class="row">
+					<div class="col-lg-12">
+						<div class="row" id="page-contents">
+
+							@include('layouts._left-sidebar')
+							<div class="col-lg-6">
+
+							<div class="central-meta">
 		<div class="editing-info">
 			<h5 class="f-title"><i class="ti-info-alt"></i> Edit Basic Information</h5>
-			@if ($errors->any())
-				<div class="alert alert-danger">
-					<ul>
-						@foreach ($errors->all() as $error)
-							<li>{{ $error }}</li>
-						@endforeach
-					</ul>
-				</div>
-			@endif
+			@include('partials._errors')
 			<form method="post" action="{{ route('profile.update',auth()->user()->id) }}">
 				{{--{{ $user }}--}}
 
@@ -43,4 +55,15 @@
 			</form>
 		</div>
 	</div>
-	@stop
+
+							</div><!-- _central-meta -->
+							@include('layouts._right-sidebar')
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+
+@stop
+
